@@ -7,6 +7,8 @@ import android.graphics.PointF
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.withStyledAttributes
+import ru.netology.statsview.R
 import ru.netology.statsview.utils.AndroidUtils
 import kotlin.math.min
 import kotlin.random.Random
@@ -25,6 +27,23 @@ class StatsView @JvmOverloads constructor(
     defStyleRes
 ) {
 
+    private var textSize = AndroidUtils.dp(context, 20F).toFloat() //размер текста
+    private var lineWidth = AndroidUtils.dp(context, 5F).toFloat() //Толщина линии
+    private var colors = emptyList<Int>()
+
+    init { //использование своих аттрибутов
+        context.withStyledAttributes(attributeSet, R.styleable.StatsView) {
+            textSize = getDimension(R.styleable.StatsView_textSize, textSize)
+            lineWidth = getDimension(R.styleable.StatsView_lineWidth, lineWidth)
+            colors = listOf(
+                getColor(R.styleable.StatsView_color1, generateRandomColor()),
+                getColor(R.styleable.StatsView_color2, generateRandomColor()),
+                getColor(R.styleable.StatsView_color3, generateRandomColor()),
+                getColor(R.styleable.StatsView_color4, generateRandomColor()),
+            )
+        }
+    }
+
     var data: List<Float> = emptyList()
         set(value) {
             field = value
@@ -34,11 +53,11 @@ class StatsView @JvmOverloads constructor(
     private var radius = 0F
     private var center = PointF()
     private var oval = RectF() //Область в которой будет отрисовка
-    private val lineWidth = AndroidUtils.dp(context, 5F)
+
     private val paint = Paint(
         Paint.ANTI_ALIAS_FLAG //сглаживание
     ).apply {
-        strokeWidth = lineWidth.toFloat() //ширина строки
+        strokeWidth = this@StatsView.lineWidth //ширина строки
         style = Paint.Style.STROKE //Cтиль отрисовки по строкам
         strokeJoin = Paint.Join.ROUND // Скругление углов при пересечении линий
         strokeCap = Paint.Cap.ROUND // Скругление углов концов линий
@@ -47,7 +66,7 @@ class StatsView @JvmOverloads constructor(
     private val textPaint = Paint( //кисть для текста
         Paint.ANTI_ALIAS_FLAG //сглаживание
     ).apply {
-        textSize = AndroidUtils.dp(context, 20F).toFloat() //размер текста
+        textSize = this@StatsView.textSize
         style = Paint.Style.FILL //Cтиль отрисовки заливка
         textAlign = Paint.Align.CENTER  //Привязка к центру
     }
@@ -73,15 +92,15 @@ class StatsView @JvmOverloads constructor(
             return
         }
         var startAngle = -90F
-        data.forEach { //отрисковка разноцветных частей круга
-            val angle = it * 360
-            paint.color = Random.nextInt(0xFF000000.toInt(), 0xFFFFFFFf.toInt())
+        data.forEachIndexed { index, datum ->//отрисковка разноцветных частей круга
+            val angle = datum * 360
+            paint.color = colors.getOrElse(index){generateRandomColor()}
             canvas.drawArc(oval, startAngle, angle, false, paint)
             startAngle += angle
         }
 
         canvas.drawText(
-            "%.2f%%".format(data.sum()*100), //сам текст
+            "%.2f%%".format(data.sum() * 100), //сам текст
             center.x,//положение текста по центру по горизонтали
             center.y + textPaint.textSize / 4,//положение текста по центру по вертикали плюс чуть чуть отступ вниз
             textPaint //Кисть
@@ -89,4 +108,6 @@ class StatsView @JvmOverloads constructor(
 //        canvas.drawCircle(center.x, center.y, radius, paint) //просто отрисовка круга
 
     }
+
+    private fun generateRandomColor() = Random.nextInt(0xFF000000.toInt(), 0xFFFFFFFf.toInt())
 }
