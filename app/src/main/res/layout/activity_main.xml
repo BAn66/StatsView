@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <ru.netology.statsview.ui.StatsView
+        android:id="@+id/statsView"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:text="Hello World!"
