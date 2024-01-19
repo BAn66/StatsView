@@ -63,6 +63,16 @@ class StatsView @JvmOverloads constructor(
         strokeCap = Paint.Cap.ROUND // Скругление углов концов линий
     }
 
+    private val paintDot = Paint(
+        Paint.ANTI_ALIAS_FLAG //сглаживание
+    ).apply {
+        strokeWidth = this@StatsView.lineWidth / 2 //ширина строки
+        style = Paint.Style.STROKE //Cтиль отрисовки по строкам
+        strokeJoin = Paint.Join.ROUND // Скругление углов при пересечении линий
+        strokeCap = Paint.Cap.ROUND // Скругление углов концов линий
+        paint.color = R.styleable.StatsView_color1
+    }
+
     private val textPaint = Paint( //кисть для текста
         Paint.ANTI_ALIAS_FLAG //сглаживание
     ).apply {
@@ -91,21 +101,33 @@ class StatsView @JvmOverloads constructor(
         if (data.isEmpty()) {
             return
         }
+
+        val dataPercent = mutableListOf<Float>()
+        data.forEach{
+            dataPercent.add(it/data.sum())
+        }
+
+//        paint.setColor(colors[0])
+//        canvas.drawCircle(center.x, center.y - radius, lineWidth / 4, paintDot)
+
         var startAngle = -90F
-        data.forEachIndexed { index, datum ->//отрисковка разноцветных частей круга
+        dataPercent.forEachIndexed { index, datum ->//отрисковка разноцветных частей круга
             val angle = datum * 360
             paint.color = colors.getOrElse(index){generateRandomColor()}
             canvas.drawArc(oval, startAngle, angle, false, paint)
             startAngle += angle
         }
+        paintDot.setColor(colors[0])
+        canvas.drawCircle(center.x, center.y - radius, lineWidth / 4, paintDot) //просто отрисовка круга
+
 
         canvas.drawText(
-            "%.2f%%".format(data.sum() * 100), //сам текст
+            "%.2f%%".format(dataPercent.sum() * 100), //сам текст
             center.x,//положение текста по центру по горизонтали
             center.y + textPaint.textSize / 4,//положение текста по центру по вертикали плюс чуть чуть отступ вниз
             textPaint //Кисть
         )
-//        canvas.drawCircle(center.x, center.y, radius, paint) //просто отрисовка круга
+
 
     }
 
