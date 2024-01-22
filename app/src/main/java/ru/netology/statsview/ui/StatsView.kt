@@ -2,6 +2,7 @@ package ru.netology.statsview.ui
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.RectF
@@ -44,7 +45,7 @@ class StatsView @JvmOverloads constructor(
         }
     }
 
-    var data: List<Float> = emptyList()
+    var data: List<Pair<Float, Boolean>> = emptyList()
         set(value) {
             field = value
             invalidate() //спровоцирует выполнение функции onDrow
@@ -104,11 +105,12 @@ class StatsView @JvmOverloads constructor(
 
         val dataPercent = mutableListOf<Float>()
         data.forEach{
-            dataPercent.add(it/data.sum())
+            if(it.second)
+            dataPercent.add(it.first/sumOfData(data))
         }
 
-//        paint.setColor(colors[0])
-//        canvas.drawCircle(center.x, center.y - radius, lineWidth / 4, paintDot)
+        paint.setColor(Color.parseColor("#cccccccc"))
+        canvas.drawCircle(center.x, center.y, radius , paint) //отрисовка серого кольца
 
         var startAngle = -90F
         dataPercent.forEachIndexed { index, datum ->//отрисковка разноцветных частей круга
@@ -118,7 +120,7 @@ class StatsView @JvmOverloads constructor(
             startAngle += angle
         }
         paintDot.setColor(colors[0])
-        canvas.drawCircle(center.x, center.y - radius, lineWidth / 4, paintDot) //просто отрисовка круга
+        canvas.drawCircle(center.x, center.y - radius, lineWidth / 4, paintDot) //отрисовка точки сверху
 
 
         canvas.drawText(
@@ -132,4 +134,12 @@ class StatsView @JvmOverloads constructor(
     }
 
     private fun generateRandomColor() = Random.nextInt(0xFF000000.toInt(), 0xFFFFFFFf.toInt())
+
+    private fun sumOfData(list: List<Pair<Float, Boolean>>): Float{
+        var summa = 0F
+        list.forEach {
+            summa = summa + it.first
+        }
+        return summa
+    }
 }
