@@ -1,5 +1,6 @@
 package ru.netology.statsview.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -98,6 +99,7 @@ class StatsView @JvmOverloads constructor(
         )
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onDraw(canvas: Canvas) { //Метод который рисует
         if (data.isEmpty()) {
             return

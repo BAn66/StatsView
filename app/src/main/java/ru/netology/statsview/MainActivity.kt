@@ -12,9 +12,8 @@ class MainActivity : AppCompatActivity() {
             Pair(500F, true),
             Pair(500F, true),
             Pair(500F, true),
-            Pair(500F, false),
-            Pair(250F, true),
-            Pair(350F, true)
+            Pair(500F, false)
+
         )
     }
 }
