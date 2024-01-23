@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"/>
 
     <ru.netology.statsview.ui.StatsView
         android:id="@+id/statsView"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        app:color1="#391279"
+        android:layout_gravity="center"
+        app:color1="#03A9F4"
         app:color2="#4CAF50"
         app:color3="#FFEB3B"
         app:color4="#E91E63"
@@ -21,4 +28,4 @@
         app:lineWidth="20dp"
         app:textSize="40sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
