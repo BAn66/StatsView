@@ -19,6 +19,7 @@
         android:layout_gravity="center|center_horizontal"/>
 
     <ru.netology.statsview.ui.StatsView
+        app:animationType="pararllel"
         android:id="@+id/statsView"
         android:layout_width="300dp"
         android:layout_height="300dp"

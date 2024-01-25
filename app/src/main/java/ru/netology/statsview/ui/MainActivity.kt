@@ -1,11 +1,8 @@
 package ru.netology.statsview.ui
 
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.TextView
 import ru.netology.statsview.R
 import ru.netology.statsview.utils.AndroidUtils
@@ -32,45 +29,48 @@ class MainActivity : AppCompatActivity() {
 //            0.25F,
 //        )
 
-        val textPecent = findViewById<TextView>(R.id.textPecent) // Или сделать textView,
-        // или сделать отдельное ui на текст с процентами, и задать аналогичную анимацию как для StatsView
+//        val textPecent = findViewById<TextView>(R.id.textPecent) // Или сделать textView,
+//        // или сделать отдельное ui на текст с процентами, и задать аналогичную анимацию как для StatsView
+//
+//        val dataPercent = mutableListOf<Float>()
+//        view.data.forEach {
+//            if (it.second)
+//                dataPercent.add(it.first / sumOfData(view.data))
+//        }
+//
+//       val percent = "%.2f%%".format( dataPercent.sum() * 100)
+//        val textSize = AndroidUtils.dp(view.context, 20F).toFloat()
+//        textPecent.textSize = textSize
+//        textPecent.text = percent
 
-        val dataPercent = mutableListOf<Float>()
-        view.data.forEach {
-            if (it.second)
-                dataPercent.add(it.first / sumOfData(view.data))
-        }
-
-       val percent = "%.2f%%".format( dataPercent.sum() * 100)
-        val textSize = AndroidUtils.dp(view.context, 20F).toFloat()
-        val textView = findViewById<TextView>(R.id.label)
-        view.startAnimation(
-            AnimationUtils.loadAnimation(this, R.anim.animation)
-                .apply{
-                setAnimationListener(object: Animation.AnimationListener{
-                    @SuppressLint("SetTextI18n")
-                    override fun onAnimationStart(p0: Animation?) {
-                        textView.text = "onAnimationStart"
-                        textPecent.textSize = textSize
-                        textPecent.text = percent
-                    }
-
-                    @SuppressLint("SetTextI18n")
-                    override fun onAnimationEnd(p0: Animation?) {
-                        textView.text ="onAnimationEnd"
-                        textPecent.textSize = textSize
-                        textPecent.text = percent
-                    }
-
-                    @SuppressLint("SetTextI18n")
-                    override fun onAnimationRepeat(p0: Animation?) {
-                        textView.text ="onAnimationRepeat"
-                        textPecent.textSize = textSize
-                        textPecent.text = percent
-                    }
-                })
-            }
-        )
+//        val textView = findViewById<TextView>(R.id.label)
+//        view.startAnimation(
+//            AnimationUtils.loadAnimation(this, R.anim.animation) //Анимирует вращение из anim.xml
+//                .apply{
+//                setAnimationListener(object: Animation.AnimationListener{
+//                    @SuppressLint("SetTextI18n")
+//                    override fun onAnimationStart(p0: Animation?) {
+//                        textView.text = "onAnimationStart"
+//                        textPecent.textSize = textSize
+//                        textPecent.text = percent
+//                    }
+//
+//                    @SuppressLint("SetTextI18n")
+//                    override fun onAnimationEnd(p0: Animation?) {
+//                        textView.text ="onAnimationEnd"
+//                        textPecent.textSize = textSize
+//                        textPecent.text = percent
+//                    }
+//
+//                    @SuppressLint("SetTextI18n")
+//                    override fun onAnimationRepeat(p0: Animation?) {
+//                        textView.text ="onAnimationRepeat"
+//                        textPecent.textSize = textSize
+//                        textPecent.text = percent
+//                    }
+//                })
+//            }
+//        )
     }
 }
 
