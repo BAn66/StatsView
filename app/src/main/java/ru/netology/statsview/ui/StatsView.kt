@@ -58,18 +58,18 @@ class StatsView @JvmOverloads constructor(
         }
     }
 
-    var data: List<Pair<Float, Boolean>> = listOf<Pair<Float, Boolean>>(
-        Pair(500F, true),
-        Pair(500F, true),
-        Pair(500F, true),
-        Pair(500F, true)
+    var data: List<Pair<Float, Boolean>> = listOf(
+        Pair(0.25F, true),
+        Pair(0.25F, true),
+        Pair(0.25F, true),
+        Pair(0.25F, true)
     )
-//    var data: List<Pair<Float, Boolean>> = emptyList()
         set(value) {
             field = value
             update() //спровоцирует выполнение функции onDrow
         }
 
+//    var data: List<Pair<Float, Boolean>> = emptyList()
 
 
     private var radius = 0F
@@ -121,6 +121,55 @@ class StatsView @JvmOverloads constructor(
 
     @SuppressLint("SuspiciousIndentation")
     override fun onDraw(canvas: Canvas) { //Метод который рисует
+        when (animationType) {
+            AnimationType.Pararllel -> parralelDraw(canvas)
+            AnimationType.Sequantial -> sequentialDraw(canvas)
+            AnimationType.Bidirectional -> BidirectionalDraw(canvas)
+        }
+    }
+
+    /**Двусторонняя анимация*/
+    private fun BidirectionalDraw(
+        canvas: Canvas
+    ) {
+
+        if (data.isEmpty()) {
+            return
+        }
+        paint.color = Color.parseColor("#cccccccc")
+        canvas.drawCircle(center.x, center.y, radius, paint) //отрисовка серого кольца
+
+        //отрисовка точки сверху
+        paintDot.color = colors[0]
+        canvas.drawCircle(center.x, center.y - radius, lineWidth / 4, paintDot)
+
+        val dataPercent = mutableListOf<Float>()
+        data.forEach {
+            if (it.second)
+                dataPercent.add(it.first / sumOfData(data))
+        }
+
+        canvas.drawText( //Отрисовка текста
+            "%.2f%%".format(dataPercent.sum() * 100), //сам текст
+            center.x,//положение текста по центру по горизонтали
+            center.y + textPaint.textSize / 4,//положение текста по центру по вертикали плюс чуть чуть отступ вниз
+            textPaint //Кисть
+        )
+        var startFrom = -90F
+        for ((index, datum) in dataPercent.withIndex()) {
+            val angle = 360F * datum
+            paint.color = colors.getOrElse(index) { generateRandomColor() }
+            val fullProgressAngle = angle * progress
+            val halfProgressAngle = fullProgressAngle / 2
+            canvas.drawArc(oval, startFrom - halfProgressAngle, fullProgressAngle, false, paint)
+            startFrom += angle
+        }
+    }
+
+    /**Последовательная анимация*/
+    private fun sequentialDraw(
+        canvas: Canvas
+    ) {
         if (data.isEmpty()) {
             return
         }
@@ -145,36 +194,6 @@ class StatsView @JvmOverloads constructor(
             textPaint //Кисть
         )
 
-
-        when (animationType) {
-            AnimationType.Pararllel -> parralelDraw(dataPercent, canvas)
-            AnimationType.Sequantial -> sequentialDraw(dataPercent, canvas)
-            AnimationType.Bidirectional -> BidirectionalDraw(dataPercent, canvas)
-        }
-    }
-
-    /**Двусторонняя анимация*/
-    private fun BidirectionalDraw(
-        dataPercent: MutableList<Float>,
-        canvas: Canvas
-    ) {
-        var startFrom = -90F
-
-        for ((index, datum) in dataPercent.withIndex()) {
-            val angle = 360F * datum
-            paint.color = colors.getOrElse(index) { generateRandomColor() }
-            val fullProgressAngle = angle * progress
-            val halfProgressAngle = fullProgressAngle / 2
-            canvas.drawArc(oval, startFrom - halfProgressAngle, fullProgressAngle, false, paint)
-            startFrom += angle
-        }
-    }
-
-    /**Последовательная анимация*/
-    private fun sequentialDraw(
-        dataPercent: MutableList<Float>,
-        canvas: Canvas
-    ) {
         var startFrom = -90F
         // Максимальный угол поворота с учётом начального отступа
         val maxAngle = 360 * progress + startFrom
@@ -192,9 +211,32 @@ class StatsView @JvmOverloads constructor(
 
     /**Паралелльная анимация*/
     private fun parralelDraw(
-        dataPercent: MutableList<Float>,
         canvas: Canvas
     ) {
+        if (data.isEmpty()) {
+            return
+        }
+        paint.color = Color.parseColor("#cccccccc")
+        canvas.drawCircle(center.x, center.y, radius, paint) //отрисовка серого кольца
+
+
+        //отрисовка точки сверху
+        paintDot.color = colors[0]
+        canvas.drawCircle(center.x, center.y - radius, lineWidth / 4, paintDot)
+
+        val dataPercent = mutableListOf<Float>()
+        data.forEach {
+            if (it.second)
+                dataPercent.add(it.first / sumOfData(data))
+        }
+
+        canvas.drawText( //Отрисовка текста
+            "%.2f%%".format(dataPercent.sum() * 100), //сам текст
+            center.x,//положение текста по центру по горизонтали
+            center.y + textPaint.textSize / 4,//положение текста по центру по вертикали плюс чуть чуть отступ вниз
+            textPaint //Кисть
+        )
+
         // Анимация сразу всех
         var startAngle = -90F
         dataPercent.forEachIndexed { index, datum ->//отрисковка разноцветных частей круга
@@ -202,7 +244,7 @@ class StatsView @JvmOverloads constructor(
             paint.color = colors.getOrElse(index) { generateRandomColor() }
             canvas.drawArc(oval, startAngle, angle * progress, false, paint)
             startAngle += angle * progress // как прогресс бар, 4 части постепенно все заполняют
-            //            startAngle += angle// сразу все из разных точек
+            //startAngle += angle// сразу все из разных точек
         }
     }
 

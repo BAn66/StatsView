@@ -1,32 +1,52 @@
 package ru.netology.statsview.ui
 
 
+import android.animation.LayoutTransition
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.Scene
 import android.transition.TransitionManager
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.BounceInterpolator
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionScene.Transition
 import ru.netology.statsview.R
 import ru.netology.statsview.utils.AndroidUtils
 
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
+        /**Animations 2-2*/
+        val root = findViewById<ViewGroup>(R.id.root)
+        root.layoutTransition = LayoutTransition().apply {
+            setDuration(2_000)
+            setInterpolator(LayoutTransition.CHANGE_APPEARING, BounceInterpolator())
+        }
+
+        findViewById<View>(R.id.goButton).setOnClickListener {
+            val view = layoutInflater.inflate(R.layout.stats_view, root, false)
+            root.addView(view, 0) //добавляем новые объекты в начало, для этого на фалсе не забудь поменять
+        }
+
+        /** Animations 2-1*/
+//        val root = findViewById<ViewGroup>(R.id.root)
+//        val scene = Scene.getSceneForLayout(root, R.layout.end_scene, this)
+//        findViewById<View>(R.id.goButton).setOnClickListener {
+//            TransitionManager.go(scene)
+//        }
+
+
+        /**Animations1-1 */
 //        val view = findViewById<StatsView>(R.id.statsView)
-//                view.data = listOf(
-//                    Pair(0.25F, true),
-//        Pair(0.25F, true),
-//        Pair(0.25F, true),
-//                    Pair(0.25F, true)
+//        view.data = listOf(
+//            Pair(500F, true),
+//            Pair(500F, true),
+//            Pair(500F, true),
+//            Pair(500F, true)
 //        )
-
 //        view.data = listOf(
 //            0.25F,
 //            0.25F,
@@ -34,13 +54,7 @@ class MainActivity : AppCompatActivity() {
 //            0.25F,
 //        )
 
-        val root = findViewById<ViewGroup>(R.id.root)
-        val scene = Scene.getSceneForLayout(root, R.layout.end_scene, this)
-        findViewById<View>(R.id.goButton).setOnClickListener {
-            TransitionManager.go(scene)
-        }
-
-
+        /**Animations 1-2 home */
 //        val textPecent = findViewById<TextView>(R.id.textPecent) // Или сделать textView,
 //        // или сделать отдельное ui на текст с процентами, и задать аналогичную анимацию как для StatsView
 //
