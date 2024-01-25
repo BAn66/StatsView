@@ -6,35 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-    <TextView
-        android:id="@+id/label"
+    <FrameLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/start_scene" />
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/goButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal" />
-
-    <TextView
-        android:id="@+id/textPecent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|center_horizontal"/>
-
-    <ru.netology.statsview.ui.StatsView
-        app:animationType="pararllel"
-        android:id="@+id/statsView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
-        app:color1="#03A9F4"
-        app:color2="#4CAF50"
-        app:color3="#FFEB3B"
-        app:color4="#E91E63"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lineWidth="20dp"
-        app:textSize="40sp" />
-
-
+        android:layout_gravity="bottom|center"
+        android:text="@string/GO" />
 
 </FrameLayout>
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/label"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="top|center_horizontal" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textPecent"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center|center_horizontal"/>   -->
+
+
+    <!--    <ru.netology.statsview.ui.StatsView-->
+    <!--        app:animationType="pararllel"-->
+    <!--        android:id="@+id/statsView"-->
+    <!--        android:layout_width="300dp"-->
+    <!--        android:layout_height="300dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        app:color1="#03A9F4"-->
+    <!--        app:color2="#4CAF50"-->
+    <!--        app:color3="#FFEB3B"-->
+    <!--        app:color4="#E91E63"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:lineWidth="20dp"-->
+    <!--        app:textSize="40sp" />-->
+
+

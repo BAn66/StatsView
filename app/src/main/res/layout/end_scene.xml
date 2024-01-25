@@ -6,9 +6,20 @@
 
     <ru.netology.statsview.ui.StatsView
         android:id="@+id/statsView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="top|start"
+        app:color1="#03A9F4"
+        app:color2="#4CAF50"
+        app:color3="#FFEB3B"
+        app:color4="#E91E63"
+        app:lineWidth="20dp"
+        app:textSize="40sp" />
+
+    <ru.netology.statsview.ui.StatsView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="top|end"
         app:animationType="pararllel"
         app:color1="#03A9F4"
         app:color2="#4CAF50"

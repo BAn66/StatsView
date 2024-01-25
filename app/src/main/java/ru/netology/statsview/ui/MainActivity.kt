@@ -3,7 +3,12 @@ package ru.netology.statsview.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.Scene
+import android.transition.TransitionManager
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.motion.widget.MotionScene.Transition
 import ru.netology.statsview.R
 import ru.netology.statsview.utils.AndroidUtils
 
@@ -14,13 +19,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val view = findViewById<StatsView>(R.id.statsView)
-        view.data = listOf<Pair<Float, Boolean>>(
-            Pair(500F, true),
-            Pair(500F, true),
-            Pair(500F, true),
-            Pair(500F, true)
-        )
+//        val view = findViewById<StatsView>(R.id.statsView)
+//                view.data = listOf(
+//                    Pair(0.25F, true),
+//        Pair(0.25F, true),
+//        Pair(0.25F, true),
+//                    Pair(0.25F, true)
+//        )
 
 //        view.data = listOf(
 //            0.25F,
@@ -28,6 +33,13 @@ class MainActivity : AppCompatActivity() {
 //            0.25F,
 //            0.25F,
 //        )
+
+        val root = findViewById<ViewGroup>(R.id.root)
+        val scene = Scene.getSceneForLayout(root, R.layout.end_scene, this)
+        findViewById<View>(R.id.goButton).setOnClickListener {
+            TransitionManager.go(scene)
+        }
+
 
 //        val textPecent = findViewById<TextView>(R.id.textPecent) // Или сделать textView,
 //        // или сделать отдельное ui на текст с процентами, и задать аналогичную анимацию как для StatsView
@@ -74,13 +86,13 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-private fun sumOfData(list: List<Pair<Float, Boolean>>): Float {
-    var summa = 0F
-    list.forEach {
-        summa = summa + it.first
-    }
-    return summa
-}
+//private fun sumOfData(list: List<Pair<Float, Boolean>>): Float {
+//    var summa = 0F
+//    list.forEach {
+//        summa = summa + it.first
+//    }
+//    return summa
+//}
 
 // д/з 1 анимации
 //package ru.netology.statsview.ui

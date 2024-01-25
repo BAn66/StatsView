@@ -58,11 +58,19 @@ class StatsView @JvmOverloads constructor(
         }
     }
 
-    var data: List<Pair<Float, Boolean>> = emptyList()
+    var data: List<Pair<Float, Boolean>> = listOf<Pair<Float, Boolean>>(
+        Pair(500F, true),
+        Pair(500F, true),
+        Pair(500F, true),
+        Pair(500F, true)
+    )
+//    var data: List<Pair<Float, Boolean>> = emptyList()
         set(value) {
             field = value
             update() //спровоцирует выполнение функции onDrow
         }
+
+
 
     private var radius = 0F
     private var center = PointF()
