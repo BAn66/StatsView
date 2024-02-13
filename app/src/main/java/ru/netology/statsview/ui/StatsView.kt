@@ -271,7 +271,7 @@ class StatsView @JvmOverloads constructor(
 
     }
 
-    private fun generateRandomColor() = Random.nextInt(0xFF000000.toInt(), 0xFFFFFFFf.toInt())
+    private fun generateRandomColor() = Random.nextInt(0xFF000000.toInt(), 0xFFFFFFFF.toInt())
 
     private fun sumOfData(list: List<Pair<Float, Boolean>>): Float {
         var summa = 0F
